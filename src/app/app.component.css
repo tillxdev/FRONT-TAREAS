@@ -1,0 +1,11 @@
+/* Estilo para la barra de navegación */
+mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
+  
+  button {
+    margin-left: 1rem;
+  }
+  
