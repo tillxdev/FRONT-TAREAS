@@ -1,1 +1,22 @@
-<p>tarea-form works!</p>
+<form [formGroup]="tareaForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="titulo" required>
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="descripcion"></textarea>
+    </mat-form-field>
+  
+    <mat-checkbox formControlName="completado">
+      {{ tareaForm.get('completado')?.value ? 'Completada' : 'Pendiente' }}
+    </mat-checkbox>
+  
+    <div>
+      <button mat-raised-button color="primary" type="submit">
+        {{ isEdit ? 'Actualizar' : 'Crear' }}
+      </button>
+      <button mat-button routerLink="/tareas">Cancelar</button>
+    </div>
+  </form>

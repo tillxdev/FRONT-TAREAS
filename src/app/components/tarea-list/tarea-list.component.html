@@ -1,0 +1,47 @@
+<mat-table [dataSource]="tareas">
+    <!--Column tittle-->
+    <ng-container matColumnDef="titulo">
+        <mat-header-cell *matHeaderCellDef>Titulo</mat-header-cell>
+        <mat-cell *matCellDef="let tarea">{{tarea.titulo}}</mat-cell>
+    </ng-container>
+    
+    <!--Column Description-->
+    <ng-container matColumnDef="descripcion">
+        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell *matCellDef="let tarea">{{tarea.descripcion}}</mat-cell>
+    </ng-container>
+    
+
+    <!--Column completado-->
+    <ng-container matColumnDef="completado">
+        <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+        <mat-cell *matCellDef="let tarea">
+            <mat-checkbox [checked]="tarea.completado" disabled></mat-checkbox>
+        </mat-cell>
+    </ng-container>
+    
+
+    <!--Column Acciones-->
+    <ng-container matColumnDef="acciones">
+        <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+        <mat-cell *matCellDef="let tarea">
+            
+            <button mat-icon-button color="primary" [routerLink]="['/tareas',tarea.id,'editar']">
+                <mat-icon>edit</mat-icon>
+            </button>
+
+            <button mat-icon-button color="warn" (click)="eliminarTarea(tarea.id)">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+        </mat-cell>
+    </ng-container>
+    
+    <!--Generan dinámicamente las filas con base en las columnas definidas en displayedColumns-->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row;columns:displayedColumns;"></mat-row>
+</mat-table>
+
+<button mat-raised-button color="primary" routerLink="/tareas/nueva">
+    <mat-icon>add</mat-icon> Nueva tarea
+</button>
