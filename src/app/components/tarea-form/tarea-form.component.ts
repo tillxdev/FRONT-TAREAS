@@ -72,19 +72,37 @@ export class TareaFormComponent implements OnInit {
   // Función que se ejecuta al enviar el formulario
   onSubmit() {
     const formData = this.tareaForm.value;
-
-    // Si estamos en edición y la tarea tiene ID, actualizamos
+  
     if (this.isEdit && this.tarea?.id) {
-      this.tareaService.updateTarea(this.tarea.id, formData as Tarea).subscribe({
-        next: () => this.router.navigate(['/tareas']), // Si sale bien, redirigimos
-        error: (err) => console.error('Error al actualizar', err) // Si falla, mostramos error
+      // Crear un objeto Tarea completo, incluyendo el ID original
+      const updatedTarea: Tarea = {
+        id: this.tarea.id,       // <-- Asegúrate de incluir el ID
+        titulo: formData.titulo || '', // Usamos || '' para evitar valores undefined
+        descripcion: formData.descripcion || '',
+        completado: formData.completado || false
+      };
+      console.log("Datos enviados al servidor (UPDATE):", updatedTarea); // <-- Verifica esto en consola
+      this.tareaService.updateTarea(this.tarea.id, updatedTarea).subscribe({
+        next: () => this.router.navigate(['/tareas']),
+        error: (err) => console.error('Error al actualizar', err)
       });
     } else {
-      // Si no estamos en edición, es una nueva tarea
-      this.tareaService.createTarea(formData as Tarea).subscribe({
+      // Para creación, no necesitamos el ID
+      const newTarea: Tarea = {
+        titulo: formData.titulo || '',
+        descripcion: formData.descripcion || '',
+        completado: formData.completado || false
+      };
+  
+      this.tareaService.createTarea(newTarea).subscribe({
         next: () => this.router.navigate(['/tareas']),
         error: (err) => console.error('Error al crear:', err)
       });
     }
   }
-}
+
+
+
+
+
+}//endclass
